@@ -5,6 +5,6 @@ account: faiz-datsc
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1588283
-bundleId: 2669102
+bundleId: 2669332
 url: https://faiz-datsc.shinyapps.io/rainfallexplorer/
-when: 1576412419.25385
+when: 1576423426.5322

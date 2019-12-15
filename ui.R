@@ -7,7 +7,7 @@ yearDropdown <- c("All Years", "2014", "2015", "2016", "2017", "2018", "2019", "
 monthDropdown <- as.list(setNames(c(1:12), month.name))
 monthDropdown <- c("All Months", monthDropdown)
 
-navbarPage("Rainfall Explorer Analytics", id="nav",
+navbarPage("Rainfall Explorer Analysis", id="nav",
            
            tabPanel("Malaysia",
                     div(class="outer",
