@@ -41,8 +41,7 @@ navbarPage("Rainfall Explorer Analysis", id="nav",
 
                         ),
                         
-                        absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
-                                      draggable = FALSE, top = 60, right = 0, left = "auto", bottom = "auto",
+                        fixedPanel(draggable = FALSE, top = 60, right = 0, left = "auto", bottom = "auto",
                                       width = "30%", height = "35%",
                                       plotOutput("overallTrend", height = "100%")
                                       

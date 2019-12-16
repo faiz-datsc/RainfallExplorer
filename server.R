@@ -45,8 +45,8 @@ bins <- c(0, 2.5, 7.6, 50, Inf)
 pal <- colorBin("YlOrRd", domain = rainfall_map$Rainfall, bins = bins)
 
 #Coloring barplot condition
+pal1 <- c("Light" = "#ffffcc", "Moderate" = "#fed976", "Heavy" = "#feb24c", "Violent" = "#e31a1c")
 pal2 <- c("Fine" = "green", "Bad" = "red")
-
 
 function(input, output, session) {
     
@@ -83,6 +83,18 @@ function(input, output, session) {
         else
             for( i in rownames(rainfall_map) )
                 rainfall_map[i, "Rainfall"] <- calculate_rainfall_mean(input$Year, input$Month, rainfall_map[i, "State"])
+            
+        for( i in rownames(rainfall_map) ){
+          if(rainfall_map[i, "Rainfall"] <2.5)
+            rainfall_map[i, "Intensity"] <- "Light"
+          else if(rainfall_map[i, "Rainfall"] <7.6)
+            rainfall_map[i, "Intensity"] <- "Moderate"
+          else if(rainfall_map[i, "Rainfall"] <50)
+            rainfall_map[i, "Intensity"] <- "Heavy"
+          else
+            rainfall_map[i, "Intensity"] <- "Violent"
+        }
+            
             
             output$map <- renderLeaflet({
                 leaflet(states, options = leafletOptions(zoomControl = FALSE)) %>%
@@ -134,8 +146,9 @@ function(input, output, session) {
   
                 # Render a bar plot
                 ggplot(rainfall_map, aes(x = State, y = Rainfall))+
-                    geom_col(aes(fill = State) , show.legend = FALSE)+
+                    geom_col(aes(fill = Intensity) , show.legend = FALSE)+
                     labs(title="Trend of Rainfall", y="Average Rainfall (mm)", x="State")+ 
+                    scale_fill_manual(values = pal1)+
                     coord_flip()
                 
             })
@@ -151,7 +164,7 @@ function(input, output, session) {
             
             #Render a bar plot
             ggplot(stateTrend, aes(x = Year, y = Rainfall))+
-            geom_col(fill = "navyblue" , show.legend = FALSE)+
+            geom_col(aes(fill = Year), show.legend = FALSE)+
             labs(title="Trend of Rainfall", y="Total Rainfall (mm)", x="Year")
             
         })
@@ -176,7 +189,7 @@ function(input, output, session) {
             
             #Render a bar plot
             ggplot(stateMonthlyTrend, aes(x = Day, y = Rainfall))+
-                geom_col(aes(fill = Weather) , show.legend = TRUE)+
+                geom_col(aes(fill = Weather), show.legend = TRUE)+
                 labs(title="Trend of Rainfall", y="Total Rainfall (mm)", x="Day")+
                 scale_fill_manual(values = pal2)+ 
                 theme(legend.position="right")
